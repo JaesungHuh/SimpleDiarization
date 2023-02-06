@@ -130,3 +130,5 @@ dmypy.json
 
 # Hydra
 outputs/
+examples/output/
+pretrained_models/
