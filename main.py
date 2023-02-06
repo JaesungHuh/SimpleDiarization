@@ -4,6 +4,7 @@ from diarize.score import calculate_score
 import hydra
 import os
 import sys
+import tqdm
 
 def read_inputlist(input_list):
     if os.path.isfile(input_list) == False:
@@ -38,7 +39,7 @@ def main(cfg: DictConfig):
     ref_rttm_list = []
     sys_rttm_list = []
 
-    for wav_file in wav_list:
+    for wav_file in tqdm.tqdm(wav_list):
         ref_rttm = wav_file.replace('.wav', '.rttm')
         if cfg.vad.ref_vad == True:
             vad_file = wav_file.replace('.wav', cfg.vad.ref_suffix)
