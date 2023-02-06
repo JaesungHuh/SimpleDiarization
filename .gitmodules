@@ -1,0 +1,3 @@
+[submodule "VoxSRC2022"]
+	path = VoxSRC2022
+	url = https://github.com/JaesungHuh/VoxSRC2022.git
