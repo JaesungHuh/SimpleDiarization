@@ -21,7 +21,7 @@ def read_vadfile(vad_file):
         for line in lines:
             line = line.strip()
             start, end = line.split(' ')
-            starts.append(start)
-            ends.append(end)
+            starts.append(float(start))
+            ends.append(float(end))
 
     return starts, ends

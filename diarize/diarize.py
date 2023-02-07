@@ -28,7 +28,7 @@ class DiarizationModule():
         if vad_file == "" or (os.path.isfile(vad_file) == False):
             starts, ends = self.vad_module.get_pyannote_segments(wav_file)
         else:
-            starts, ends = self.read_vadfile(vad_file)
+            starts, ends = read_vadfile(vad_file)
         vad_segments = list(zip(starts, ends))
 
         # Extract embeddings

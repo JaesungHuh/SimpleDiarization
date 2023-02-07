@@ -43,8 +43,8 @@ def main(cfg: DictConfig):
         ref_rttm = wav_file.replace('.wav', '.rttm')
         if cfg.vad.ref_vad == True:
             vad_file = wav_file.replace('.wav', cfg.vad.ref_suffix)
-            if os.path.isfile(epd_file) == False:
-                raise print("No such file : ", vad_file)
+            if not os.path.isfile(vad_file):
+                raise ValueError("No such file : ", vad_file)
         else:
             vad_file = ""
 
