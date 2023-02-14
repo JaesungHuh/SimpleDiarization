@@ -26,13 +26,21 @@ class DiarizationModule():
 
         # VAD
         if vad_file == "" or (os.path.isfile(vad_file) == False):
-            starts, ends = self.vad_module.get_pyannote_segments(wav_file)
+            starts, ends, seg_ids, orig_vadresults = self.vad_module.get_pyannote_segments(wav_file)
         else:
-            starts, ends = read_vadfile(vad_file)
-        vad_segments = list(zip(starts, ends))
+            orig_vadresults = read_vadfile(vad_file)
+            starts, ends, seg_ids = self.vad_module.sliding_window(orig_vadresults)
+            
+        vad_segments = list(zip(starts, ends, seg_ids))
 
         # Extract embeddings
         embeddings = self.embedding_module.extract_embeddings(wav_file, vad_segments)
+
+        if self.cfg.vad.merge_vad:
+            # You have to use the original start and end time from vad
+            starts = [tup[0] for tup in orig_vadresults]
+            ends = [tup[1] for tup in orig_vadresults]
+            assert len(starts) == embeddings.shape[0]
 
         # Clustering
         SEL_tuples = self.cluster_module.cluster(embeddings, starts, ends)

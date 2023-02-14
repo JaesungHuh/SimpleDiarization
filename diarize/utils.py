@@ -15,13 +15,13 @@ def write_rttm(SEL_tuples, out_rttm_file):
             f_output.write(output_string + '\n')
 
 def read_vadfile(vad_file):
-    starts, ends = [], []
+    vad_segments = []
+
     with open(vad_file, 'r') as f:
         lines = f.readlines()
-        for line in lines:
+        for seg_id, line in enumerate(lines):
             line = line.strip()
             start, end = line.split(' ')
-            starts.append(float(start))
-            ends.append(float(end))
+            vad_segments.append((float(start), float(end)))
 
-    return starts, ends
+    return vad_segments

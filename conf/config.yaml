@@ -1,11 +1,12 @@
 misc:
-  input_list: "trials/audio_sample.list"
-  output_dir: "trials/output"
+  input_list: "trials/max_result/max.list"
+  output_dir: "trials/max_result"
   device: "cuda"
 audio:
   sr: 16000
 vad:
-  ref_vad: false
+  ref_vad: true
+  merge_vad: false
   ref_suffix: ".sad"
   method: "pyannote"
   token: "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"
