@@ -134,3 +134,6 @@ examples/output/
 pretrained_models/
 trials/
 examples/voxconverse_dev_out
+
+sps*
+slurm/

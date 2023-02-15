@@ -28,7 +28,15 @@ class DiarizationModule():
         if vad_file == "" or (os.path.isfile(vad_file) == False):
             starts, ends, seg_ids, orig_vadresults = self.vad_module.get_pyannote_segments(wav_file)
         else:
-            orig_vadresults = read_vadfile(vad_file)
+            orig_vadresults_raw = read_vadfile(vad_file)
+            orig_vadresults = []
+            # filter by min min_duration_on
+            starts = []
+            ends = []
+            for st, en in orig_vadresults_raw:
+                dur = en-st
+                if dur > self.cfg.vad.min_duration_on:
+                    orig_vadresults.append((st, en))
             starts, ends, seg_ids = self.vad_module.sliding_window(orig_vadresults)
             
         vad_segments = list(zip(starts, ends, seg_ids))
