@@ -21,7 +21,7 @@ def read_vadfile(vad_file):
         lines = f.readlines()
         for seg_id, line in enumerate(lines):
             line = line.strip()
-            start, end = line.split(' ')
+            start, end = line.split(' ')[0], line.split(' ')[1]
             vad_segments.append((float(start), float(end)))
 
     return vad_segments

@@ -1,13 +1,13 @@
 misc:
-  input_list: "trials/max_result/max.list"
-  output_dir: "trials/max_result"
+  input_list: "trials/audio_sample2.list"
+  output_dir: "trials/bruno_result_sentence2"
   device: "cuda"
 audio:
   sr: 16000
 vad:
   ref_vad: true
-  merge_vad: false
-  ref_suffix: ".sad"
+  merge_vad: true
+  ref_suffix: ".lab"
   method: "pyannote"
   token: "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"
   onset: 0.5
@@ -21,10 +21,10 @@ embedding:
 cluster:
   method: "ahc"
   num_cluster: None
-  threshold: 0.9
+  threshold: 0.91
   normalize: true
 eval:
-  run: false
+  run: true
   p_table: true
   collar: 0.25
   ignore_overlaps: false

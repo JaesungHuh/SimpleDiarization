@@ -7,6 +7,7 @@ from embeddings import EmbeddingModule
 from cluster import ClusterModule
 from score import calculate_score
 from utils import write_rttm, read_vadfile
+import pdb
 
 class DiarizationModule():
     def __init__(self, cfg):
@@ -37,6 +38,7 @@ class DiarizationModule():
                 dur = en-st
                 if dur > self.cfg.vad.min_duration_on:
                     orig_vadresults.append((st, en))
+
             starts, ends, seg_ids = self.vad_module.sliding_window(orig_vadresults)
             
         vad_segments = list(zip(starts, ends, seg_ids))

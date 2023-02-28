@@ -17,7 +17,13 @@ class ClusterModule():
         else:
             cluster_labels = fcluster(l, self.cfg.cluster.threshold, criterion='distance')
         SEL_tuples = [(s,e,l) for s,e,l in zip(starts, ends, cluster_labels)]
-        SEL_tuples = self.merge_speakers(SEL_tuples)
+        if not self.cfg.vad.merge_vad:
+            SEL_tuples = self.merge_speakers(SEL_tuples)
+        else:
+            SEL_tuples_new = []
+            for start, end, label in SEL_tuples:
+                SEL_tuples_new.append((start, end - start, label))
+            SEL_tuples = SEL_tuples_new
         return SEL_tuples
     
     def merge_speakers(self, SEL_tuples):
