@@ -1,6 +1,5 @@
 import os
 import sys
-import pdb
 
 cur = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.abspath(os.path.join(cur, '../VoxSRC2022')))

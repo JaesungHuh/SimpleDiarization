@@ -53,26 +53,9 @@ class DiarizationModule():
             assert len(starts) == embeddings.shape[0]
 
         # Clustering
-        SEL_tuples = self.cluster_module.cluster(embeddings, starts, ends)
+        SEC_tuples = self.cluster_module.cluster(embeddings, starts, ends)
 
         # Write the resultant rttm file
-        sys_rttm   = ref_rttm_file.split('/')[-1]
-        sys_rttm   = os.path.join(self.output_dir, sys_rttm)
-        write_rttm(SEL_tuples, sys_rttm)
+        sys_rttm   = os.path.join(self.output_dir, ref_rttm_file.split('/')[-1])
+        write_rttm(SEC_tuples, sys_rttm)
         return sys_rttm
-        
-    def calcDERofRTTMfiles(self, ref_rttm_files, sys_rttm_files):
-        """ calculate DER between `ref_rttm_files` and `sys_rttm_files`. each argument contains list of RTTM file names.
-
-        Parameters
-        ----------
-        ref_rttm_files
-        sys_rttm_files
-
-        Returns
-        -------
-
-        """
-        der, jer = calculate_score(ref_rttm_files, sys_rttm_files, p_table=self.p_table, collar=self.collar, ignore_overlaps=self.ignore_overlaps)
-
-        return der, jer

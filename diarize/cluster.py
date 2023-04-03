@@ -10,30 +10,30 @@ class ClusterModule():
         if self.cfg.cluster.normalize:
             embeddings = normalize(embeddings, axis=1, norm='l2')
         l = linkage(embeddings, metric='cosine', method='average')
-        #l = linkage(embeddings, metric='euclidean', method='single')
+
         num_cluster = self.cfg.cluster.num_cluster
         if num_cluster != "None":
             cluster_labels = fcluster(l, float(num_cluster), criterion='inconsistent')
         else:
             cluster_labels = fcluster(l, self.cfg.cluster.threshold, criterion='distance')
-        SEL_tuples = [(s,e,l) for s,e,l in zip(starts, ends, cluster_labels)]
+        SEC_tuples = [(s,e,l) for s,e,l in zip(starts, ends, cluster_labels)]
         if not self.cfg.vad.merge_vad:
-            SEL_tuples = self.merge_speakers(SEL_tuples)
+            SEC_tuples = self.merge_speakers(SEC_tuples)
         else:
-            SEL_tuples_new = []
-            for start, end, label in SEL_tuples:
-                SEL_tuples_new.append((start, end - start, label))
-            SEL_tuples = SEL_tuples_new
-        return SEL_tuples
+            SEC_tuples_new = []
+            for start, end, label in SEC_tuples:
+                SEC_tuples_new.append((start, end - start, label))
+            SEC_tuples = SEC_tuples_new
+        return SEC_tuples
     
-    def merge_speakers(self, SEL_tuples):
+    def merge_speakers(self, SEC_tuples):
         win_length = self.cfg.embedding.win_length
         hop_length = self.cfg.embedding.hop_length
         prev_label, prev_start, prev_end = -1, -1, -1
         overlap = round(float(win_length) - float(hop_length), 3)
         output  = []
 
-        for start, end, label in SEL_tuples:
+        for start, end, label in SEC_tuples:
             if prev_label >= 0:
                 if prev_label != label or start > prev_end:
                     if start >= prev_end:

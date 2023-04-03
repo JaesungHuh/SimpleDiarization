@@ -1,34 +1,27 @@
-from omegaconf import DictConfig, OmegaConf
+import os
+import yaml
+import argparse
+
 from diarize.diarize import DiarizationModule
 from diarize.score import calculate_score
-import hydra
-import os
-import sys
-import tqdm
+from diarize.utils import Dict2ObjParser, read_inputlist
 
-def read_inputlist(input_list):
-    if os.path.isfile(input_list) == False:
-        print("No such file : ", input_list)
-        sys.exit(1)
 
-    wav_list = []
-    with open(input_list, 'r') as f:
-        lines = f.readlines()
-        for line in lines:
-            line = line.strip()
-            if os.path.isfile(line) == False:
-                print("No such wav file : ", line)
-                continue
-            else:
-                wav_list.append(line)
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--cfg_file', type=str, default='conf/config.yaml')
+    args = parser.parse_args() 
     
-    print("# of wav files : ", len(wav_list))
-
-    return wav_list
+    return args
 
 
-@hydra.main(version_base=None, config_path="conf", config_name="config")
-def main(cfg: DictConfig):
+def main():
+    args = parse_args()
+
+    # Read the yaml file
+    with open(args.cfg_file, 'r') as f:
+        cfg = Dict2ObjParser(yaml.safe_load(f))
+    
     # Read the wavfiles
     input_list = cfg.misc.input_list
     wav_list = read_inputlist(input_list)
@@ -36,10 +29,9 @@ def main(cfg: DictConfig):
     # Initialize diarize module
     diarize_module = DiarizationModule(cfg)
     
-    ref_rttm_list = []
-    sys_rttm_list = []
-
-    for wav_file in tqdm.tqdm(wav_list):
+    # Diarize each wavfiles
+    ref_rttm_list, sys_rttm_list = [], []
+    for wav_file in wav_list:
         ref_rttm = wav_file.replace('.wav', '.rttm')
         if cfg.vad.ref_vad == True:
             vad_file = wav_file.replace('.wav', cfg.vad.ref_suffix)
@@ -61,6 +53,7 @@ def main(cfg: DictConfig):
                                             collar=cfg.eval.collar, 
                                             ignore_overlaps=cfg.eval.ignore_overlaps)
         print("OVERALL DER : {:.02f}% JER : {:.02f}%".format(der, jer))
+
 
 if __name__ == "__main__":
     main()

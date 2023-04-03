@@ -128,7 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Hydra
+# Custom
 outputs/
 examples/output/
 pretrained_models/
@@ -138,3 +138,4 @@ examples/voxconverse_dev_out
 sps*
 slurm/
 trials/
+test.py
