@@ -1,7 +1,7 @@
-import sys
-import torchaudio
-from speechbrain.pretrained import EncoderClassifier
 import numpy as np
+import torchaudio
+
+from speechbrain.pretrained import EncoderClassifier
 from collections import OrderedDict
 
 class EmbeddingModule():
@@ -26,8 +26,8 @@ class EmbeddingModule():
         
         if self.cfg.vad.merge_vad:
             # Merge_vad option assuems max. one speaker per vad_segment
-            # we average the speaker embeddings in this caase
-            final_embeddings = [np.mean(seg, axis=0) for seg_id, seg in embeddings.items()]
+            # we average the speaker embeddings in this case
+            final_embeddings = [np.mean(seg, axis=0) for _, seg in embeddings.items()]
         else:
             final_embeddings = []
             for seg_id, seg in embeddings.items():

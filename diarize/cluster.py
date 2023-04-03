@@ -1,5 +1,6 @@
 from sklearn.preprocessing import normalize
 from scipy.cluster.hierarchy import linkage, fcluster
+from sklearn.cluster import AgglomerativeClustering
 
 class ClusterModule():
     def __init__(self, cfg):
@@ -12,10 +13,15 @@ class ClusterModule():
         l = linkage(embeddings, metric='cosine', method='average')
 
         num_cluster = self.cfg.cluster.num_cluster
+        # if num_cluster != "None":
+        #     cluster_labels = fcluster(l, float(num_cluster), criterion='maxclust')
+        # else:
+        #     cluster_labels = fcluster(l, self.cfg.cluster.threshold, criterion='distance')
         if num_cluster != "None":
-            cluster_labels = fcluster(l, float(num_cluster), criterion='inconsistent')
+            cluster_labels = AgglomerativeClustering(n_clusters=None, metric='cosine', distance_threshold=self.cfg.cluster.threshold).fit(embeddings)
         else:
-            cluster_labels = fcluster(l, self.cfg.cluster.threshold, criterion='distance')
+            cluster_labels = AgglomerativeClustering(n_clusters=int(num_cluster), metric='cosine').fit(embeddings)
+
         SEC_tuples = [(s,e,l) for s,e,l in zip(starts, ends, cluster_labels)]
         if not self.cfg.vad.merge_vad:
             SEC_tuples = self.merge_speakers(SEC_tuples)

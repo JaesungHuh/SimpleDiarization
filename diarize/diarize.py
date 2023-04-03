@@ -7,7 +7,7 @@ from embeddings import EmbeddingModule
 from cluster import ClusterModule
 from score import calculate_score
 from utils import write_rttm, read_vadfile
-import pdb
+
 
 class DiarizationModule():
     def __init__(self, cfg):

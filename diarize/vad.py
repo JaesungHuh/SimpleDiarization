@@ -1,6 +1,3 @@
-import hydra
-import torchaudio
-
 from pyannote.audio import Model
 from pyannote.audio.pipelines import VoiceActivityDetection
 
@@ -17,11 +14,11 @@ class VADModule():
                                 "min_duration_off": cfg.vad.min_duration_off}
             self.pipeline = VoiceActivityDetection(segmentation=self.model)
             self.pipeline.instantiate(hyperparameters)
-            print("Finished VADModule : pyannote segmentation")
         else:
             print("Initialize dummy object for reading the vad file")
     
     def get_pyannote_segments(self, input_file):
+        # Vad using pyannote segmentation model
         vad_segments = []
         vad = self.pipeline(input_file)
         for x, turn in vad.itertracks():
@@ -31,6 +28,7 @@ class VADModule():
         return starts, ends, seg_ids, vad_segments
         
     def sliding_window(self, vad_segments):
+        # Chop the vad segments with sliding window with win_length and hop_length
         starts, ends, seg_ids = [], [], []
         
         # win_length and hop_length should be second

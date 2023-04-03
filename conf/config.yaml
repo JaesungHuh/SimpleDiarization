@@ -5,8 +5,8 @@ misc:
 audio:
   sr: 16000
 vad:
-  ref_vad: true
-  merge_vad: true
+  ref_vad: false
+  merge_vad: false
   ref_suffix: ".lab"
   method: "pyannote"
   token: "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"
