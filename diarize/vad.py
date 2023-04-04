@@ -1,12 +1,13 @@
 from pyannote.audio import Model
 from pyannote.audio.pipelines import VoiceActivityDetection
 
+
 class VADModule():
     def __init__(self, cfg):
         self.cfg = cfg
         if (cfg.vad.ref_vad == False):
             print("Initializing VADModule : pyannote segmentation")
-            self.token = cfg.vad.token
+            self.token = cfg.vad.pyannote_token
             self.model = Model.from_pretrained("pyannote/segmentation", use_auth_token=self.token)
             hyperparameters = {"onset": cfg.vad.onset, 
                                 "offset": cfg.vad.offset,
