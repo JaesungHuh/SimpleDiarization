@@ -6,6 +6,7 @@ from collections import OrderedDict
 
 class EmbeddingModule():
     def __init__(self, cfg):
+        print("Initializing EmbeddingModule : Speechbrain ECAPA-VOXCELEB")
         self.cfg = cfg
         self.merge_vad = cfg.vad.merge_vad
         hyperparameters = {"device": cfg.misc.device}

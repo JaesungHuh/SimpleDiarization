@@ -17,10 +17,11 @@ class ClusterModule():
         #     cluster_labels = fcluster(l, float(num_cluster), criterion='maxclust')
         # else:
         #     cluster_labels = fcluster(l, self.cfg.cluster.threshold, criterion='distance')
-        if num_cluster != "None":
-            cluster_labels = AgglomerativeClustering(n_clusters=None, metric='cosine', distance_threshold=self.cfg.cluster.threshold).fit(embeddings)
+        if num_cluster == 'None':
+            cluster_labels = AgglomerativeClustering(n_clusters=None, metric='cosine', linkage='average', distance_threshold=self.cfg.cluster.threshold).fit_predict(embeddings)
         else:
-            cluster_labels = AgglomerativeClustering(n_clusters=int(num_cluster), metric='cosine').fit(embeddings)
+            print(num_cluster)
+            cluster_labels = AgglomerativeClustering(n_clusters=int(num_cluster), linkage='average', metric='cosine').fit_predict(embeddings)
 
         SEC_tuples = [(s,e,l) for s,e,l in zip(starts, ends, cluster_labels)]
         if not self.cfg.vad.merge_vad:

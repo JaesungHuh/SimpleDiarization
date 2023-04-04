@@ -20,7 +20,8 @@ def main():
 
     # Read the yaml file
     with open(args.cfg_file, 'r') as f:
-        cfg = Dict2ObjParser(yaml.safe_load(f))
+        nested_dict = yaml.safe_load(f)
+        cfg = Dict2ObjParser(nested_dict).parse()
     
     # Read the wavfiles
     input_list = cfg.misc.input_list
