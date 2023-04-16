@@ -1,6 +1,6 @@
 misc:
-  input_list: "trials/voxconverse_dev_small.list"
-  output_dir: "trials/voxconverse_dev"
+  input_list: "data/example.list"
+  output_dir: "data/example_result"
   device: "cuda"
 audio:
   sr: 16000
@@ -8,7 +8,7 @@ vad:
   ref_vad: false
   merge_vad: false
   ref_suffix: ".lab"
-  pyannote_token: "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"
+  pyannote_token: PUT YOUR PYANNOTE TOKEN IN HERE
   onset: 0.5
   offset: 0.5
   min_duration_on: 0.1
