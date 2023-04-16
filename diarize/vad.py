@@ -23,10 +23,9 @@ class VADModule():
         vad_segments = []
         vad = self.pipeline(input_file)
         for x, turn in vad.itertracks():
-            vad_segments.append((x.start, x.end))
-        starts, ends, seg_ids = self.sliding_window(vad_segments)
+            vad_segments.append([x.start, x.end])
 
-        return starts, ends, seg_ids, vad_segments
+        return vad_segments
         
     def sliding_window(self, vad_segments):
         # Chop the vad segments with sliding window with win_length and hop_length
@@ -53,7 +52,17 @@ class VADModule():
                 seg_ids.append(seg_id)
         
         return starts, ends, seg_ids
-
-
-if __name__ == '__main__':
-    main()
+    
+    def merge_intervals(self, intervals):
+        # Merge all overlapping intervals and return an array of the non-overlapping intervals
+        # Originally from https://leetcode.com/problems/merge-intervals/solutions/3129905/merge-intervals-by-using-stack-simple-explaination/?languageTags=python3
+        intervals.sort(key=lambda x:x[0])
+        stack = []
+        for i in range(0,len(intervals)):
+            if stack and stack[0][1] >= intervals[i][0]:
+                #Overlapping condition.... Update the end point accordingly...
+                stack[0][1] = max(stack[0][1],intervals[i][1])
+            else:
+                stack.insert(0,intervals[i])
+        stack.sort(key=lambda x:x[0])
+        return stack

@@ -1,6 +1,6 @@
 import os
-import yaml
 import argparse
+import yaml
 import tqdm
 
 from diarize.diarize import DiarizationModule
@@ -9,28 +9,35 @@ from diarize.utils import Dict2ObjParser, read_inputlist
 
 
 def parse_args():
+    """Argparse arguments
+
+    Returns:
+        args: contains the path to cfg_file
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('--cfg_file', type=str, default='conf/config.yaml')
-    args = parser.parse_args() 
-    
+    args = parser.parse_args()
+
     return args
 
 
 def main():
+    """main function for speaker diarization"""
+
     args = parse_args()
 
     # Read the yaml file
-    with open(args.cfg_file, 'r') as f:
-        nested_dict = yaml.safe_load(f)
+    with open(args.cfg_file, 'r') as f_cfg:
+        nested_dict = yaml.safe_load(f_cfg)
         cfg = Dict2ObjParser(nested_dict).parse()
-    
+
     # Read the wavfiles
     input_list = cfg.misc.input_list
     wav_list = read_inputlist(input_list)
 
     # Initialize diarize module
     diarize_module = DiarizationModule(cfg)
-    
+
     # Diarize each wavfiles
     ref_rttm_list, sys_rttm_list = [], []
     for wav_file in tqdm.tqdm(wav_list):
@@ -46,15 +53,14 @@ def main():
 
         ref_rttm_list.append(ref_rttm)
         sys_rttm_list.append(sys_rttm)
-    
+
     # Evaluation
     if cfg.eval.run:
-        der, jer = calculate_score(ref_rttm_list, 
-                                            sys_rttm_list, 
-                                            p_table=cfg.eval.p_table, 
-                                            collar=cfg.eval.collar, 
-                                            ignore_overlaps=cfg.eval.ignore_overlaps)
-        print("OVERALL DER : {:.02f}% JER : {:.02f}%".format(der, jer))
+        der, jer = calculate_score(ref_rttm_list,
+                                   sys_rttm_list,
+                                   collar=cfg.eval.collar,
+                                   ignore_overlaps=cfg.eval.ignore_overlaps)
+        print(f"OVERALL DER : {der:.02f}% JER : {jer:.02f}%")
 
 
 if __name__ == "__main__":

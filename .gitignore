@@ -139,3 +139,4 @@ sps*
 slurm/
 trials/
 test.py
+.vscode/
