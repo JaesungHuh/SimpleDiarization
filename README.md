@@ -26,7 +26,7 @@ Please install the packages using the instructions from official websites.
 
 ## How to use this
 
-```python
+```bash
 python main.py --cfg_file CONFIG_FILE
 ```
 ## Note
