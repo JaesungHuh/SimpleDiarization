@@ -27,7 +27,7 @@ Please install the packages using the instructions from official websites.
 ## How to use this
 
 ```python
-pyhon main.py --cfg_file CONFIG_FILE
+python main.py --cfg_file CONFIG_FILE
 ```
 ## Note
 - This module currently only supports the diarization with single-channel, 16kHz, PCM_16 audio files. You may experience performance degradation if you process the audio files with other sampling rates. We advise you to run the following command before you run this module.
