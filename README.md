@@ -78,7 +78,7 @@ eval:
 - ref_vad : If true, the script will search for the file with different file extension (which will be **ref_suffix**) and use the vad results in that file. (default : false)
 - merge_vad : If true, the diarization module will assume that vad segment only contains speech from only **one** speaker. (default : false)
 - ref_suffix : The file extension contains vad results. Each line contains start and end time of voice segments. See [data/examples/abjxc.lab](data/examples/abjxc.lab) or [data/examples/akthc.lab](data/examples/akthc.lab). (default : .lab)
-- pyannote_token : You need to put token to use pyannote vad model. Please visit [here](hf.co/settings/tokens) for more information.
+- pyannote_token : You need to put token to use pyannote vad model. Please visit [here](https://huggingface.co/settings/tokens) for more information.
 - onset, offset, min_duration_on, min_duration_off : Configuration for pyannote vad model. 
 
 ### embedding
