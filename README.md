@@ -7,7 +7,7 @@ A simple diarization module using [pyannote](https://huggingface.co/pyannote/seg
 git clone https://github.com/JaesungHuh/SimpleDiarization.git --recursive
 ```
 
-We recommend to create conda environment with python version >= 3.9.
+We recommend to create conda environment with python version >= 3.11.
 
 ```
 conda create -n simple python=3.11
@@ -49,8 +49,6 @@ vad:
   merge_vad: false
   ref_suffix: ".lab"
   pyannote_token: PUT YOUR PYANNOTE TOKEN IN HERE
-  onset: 0.5
-  offset: 0.5
   min_duration_on: 0.1
   min_duration_off: 0.1
 embedding:
@@ -79,7 +77,7 @@ eval:
 - merge_vad : If true, the diarization module will assume that vad segment only contains speech from only **one** speaker. (default : false)
 - ref_suffix : The file extension contains vad results. Each line contains start and end time of voice segments. See [data/examples/abjxc.lab](data/examples/abjxc.lab) or [data/examples/akthc.lab](data/examples/akthc.lab). (default : .lab)
 - pyannote_token : You need to put token to use pyannote vad model. Please visit [here](https://github.com/pyannote/pyannote-audio#tldr) and [here](https://huggingface.co/settings/tokens) for more information.
-- onset, offset, min_duration_on, min_duration_off : Configuration for pyannote vad model. 
+- min_duration_on, min_duration_off : Configuration for pyannote vad model. 
 
 ### embedding
 - win_length : Input length for speaker model (sec) when extracting embeddings with sliding window manner. (default : 1.5)
@@ -96,13 +94,13 @@ eval:
 - ignore_overlaps : If true, we ignore the overlapping segments during evaluation. (default : false)
 
 ## Test
-- You could run the module with example wavfiles in `data/examples`. The result should be DER : 0.16% and JER : 2.02%.
+- You could run the module with example wavfiles in `data/examples`. The result should be DER : 1.17% and JER : 3.41%.
 - The performance on VoxConverse with default configuration is:
 
 |                      | DER   | JER    |
 |----------------------|-------|--------|
-| VoxConverse dev set  | 5.65% | 17.15% |
-| VoxConverse test set | 7.99% | 25.13% |
+| VoxConverse dev set  | 5.91% | 17.17% |
+| VoxConverse test set | 6.81% | 34.77% |
 
 ## Caveat
 - Note that this module doesn't consider **overlapping speech** during diarization.
