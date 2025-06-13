@@ -50,7 +50,6 @@ def main():
             vad_file = ""
 
         sys_rttm = diarize_module.run(wav_file, ref_rttm, vad_file)
-
         ref_rttm_list.append(ref_rttm)
         sys_rttm_list.append(sys_rttm)
 

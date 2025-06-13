@@ -8,10 +8,8 @@ class VADModule():
         if (cfg.vad.ref_vad == False):
             print("Initializing VADModule : pyannote segmentation")
             self.token = cfg.vad.pyannote_token
-            self.model = Model.from_pretrained("pyannote/segmentation", use_auth_token=self.token)
-            hyperparameters = {"onset": cfg.vad.onset, 
-                                "offset": cfg.vad.offset,
-                                "min_duration_on": cfg.vad.min_duration_on,
+            self.model = Model.from_pretrained("pyannote/segmentation-3.0", use_auth_token=self.token)
+            hyperparameters = {"min_duration_on": cfg.vad.min_duration_on,
                                 "min_duration_off": cfg.vad.min_duration_off}
             self.pipeline = VoiceActivityDetection(segmentation=self.model)
             self.pipeline.instantiate(hyperparameters)
