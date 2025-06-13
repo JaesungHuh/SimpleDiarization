@@ -10,7 +10,7 @@ git clone https://github.com/JaesungHuh/SimpleDiarization.git --recursive
 We recommend to create conda environment with python version >= 3.9.
 
 ```
-conda create -n simple python=3.9
+conda create -n simple python=3.11
 conda activate simple
 pip install -r requirements.txt
 ```

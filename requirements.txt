@@ -1,9 +1,2 @@
-numpy
-pandas
-torch >=1.9,<2.0
-torchaudio >=0.10,<1.0
-tqdm
-pyyaml
-pyannote.audio
-scikit-learn
-speechbrain
+pyannote.audio==3.3.2
+intervaltree==3.1.0

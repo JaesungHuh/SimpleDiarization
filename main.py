@@ -2,6 +2,7 @@ import os
 import argparse
 import yaml
 import tqdm
+import time
 
 from diarize.diarize import DiarizationModule
 from diarize.score import calculate_score
@@ -41,6 +42,7 @@ def main():
     # Diarize each wavfiles
     ref_rttm_list, sys_rttm_list = [], []
     for wav_file in tqdm.tqdm(wav_list):
+        start_time = time.time()
         ref_rttm = wav_file.replace('.wav', '.rttm')
         if cfg.vad.ref_vad == True:
             vad_file = wav_file.replace('.wav', cfg.vad.ref_suffix)
@@ -50,7 +52,7 @@ def main():
             vad_file = ""
 
         sys_rttm = diarize_module.run(wav_file, ref_rttm, vad_file)
-
+        total_time += end_time - start_time
         ref_rttm_list.append(ref_rttm)
         sys_rttm_list.append(sys_rttm)
 
